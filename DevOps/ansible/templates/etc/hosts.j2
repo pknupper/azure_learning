@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for item in ansible_play_hosts_all %}
+{{ hostvars[item].ansible_host }}       {{ item }}.homelab.de        {{ item }}
+{% endfor %}

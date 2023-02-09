@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+  - name: "Configure hostname"
+    become: true
+    ansible.builtin.hostname:
+      name: "{{ inventory_hostname }}"
+    
+  - name: update /etc/hosts file
+    become: true
+    blockinfile:
+      dest: /etc/hosts
+      content: "{{ lookup('template', 'templates/etc/hosts.j2') }}"
+      state: present

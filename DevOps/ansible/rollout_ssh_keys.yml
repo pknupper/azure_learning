@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+  - name: Read keys
+    include_vars: '{{ item }}'
+    with_first_found:
+      - files:
+          - "keys.yml"
+        paths: "./vars/"
+
+  - name: Deploy SSH-Keys to remote host
+    authorized_key:
+      user: "{{ user }}"
+      key: "{{ keys|map(attribute='sshkey')|join('\n') }}"
+      exclusive: true
